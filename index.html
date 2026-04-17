@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Site Update System</title>
+    <style>
+        body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #f4f4f9; }
+        .container { text-align: center; padding: 20px; background: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        button { padding: 10px 20px; font-size: 16px; cursor: pointer; background-color: #007bff; color: white; border: none; border-radius: 4px; }
+        button:hover { background-color: #0056b3; }
+        #status { margin-top: 15px; color: #555; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Update Notifications</h2>
+    <p>Click below to receive an update every 5 minutes.</p>
+    <button id="enable-btn">Enable Updates</button>
+    <div id="status">Notifications are currently disabled.</div>
+</div>
+
+<script>
+    const btn = document.getElementById('enable-btn');
+    const status = document.getElementById('status');
+    let updateInterval;
+
+    btn.addEventListener('click', () => {
+        // 1. Check for browser support
+        if (!("Notification" in window)) {
+            alert("This browser does not support desktop notifications.");
+            return;
+        }
+
+        // 2. Request permission
+        Notification.requestPermission().then(permission => {
+            if (permission === "granted") {
+                status.innerText = "Updates enabled! Keep this tab open.";
+                btn.disabled = true;
+                startUpdates();
+            } else {
+                status.innerText = "Permission denied. Please enable notifications in your browser settings.";
+            }
+        });
+    });
+
+    function startUpdates() {
+        // Send initial notification immediately
+        sendNotification();
+
+        // 3. Set timer for every 5 minutes (300,000 milliseconds)
+        updateInterval = setInterval(() => {
+            sendNotification();
+        }, 10000);
+    }
+
+    function sendNotification() {
+        const title = "Notification";
+        const options = {
+            body: "Random notification.",
+            icon: "https://placeholder.com" // You can replace this with your site's logo
+        };
+        
+        new Notification(title, options);
+    }
+</script>
+
+</body>
+</html>
