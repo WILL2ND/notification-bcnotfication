@@ -1,1 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Large Text Display</title>
+    <style>
+        /* Resets default margins and centers everything perfectly on the screen */
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Arial Black', Impact, sans-serif;
+            background-color: #121212;
+            color: #ffffff;
+            overflow: hidden;
+            transition: background-color 0.3s ease;
+        }
 
+        /* Container for the large text */
+        #text-container {
+            font-size: 12vw; /* Scaled dynamically based on the width of the screen */
+            text-align: center;
+            white-space: nowrap;
+            user-select: none;
+            padding: 20px;
+        }
+
+        /* Floating control panel for changing options */
+        #control-panel {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 15px 25px;
+            border-radius: 30px;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: opacity 0.3s ease;
+        }
+
+        /* Hides the control panel when not hovering to give a clean look */
+        #control-panel:hover {
+            opacity: 1;
+        }
+
+        /* Style for the text input box */
+        input[type="text"] {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 20px;
+            font-size: 16px;
+            outline: none;
+            width: 200px;
+        }
+
+        /* Styling for color pickers and labels */
+        .color-picker-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-family: sans-serif;
+            font-size: 14px;
+            color: #fff;
+        }
+
+        input[type="color"] {
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            background: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- The word is injected directly here -->
+    <div id="text-container">Will jones + Osians mom</div>
+
+    <!-- Interactive control panel -->
+    <div id="control-panel">
+        <input type="text" id="word-input" value="HELLO" placeholder="Type your word..." maxlength="20">
+        
+        <div class="color-picker-wrapper">
+            <label for="text-color">Text:</label>
+            <input type="color" id="text-color" value="#ffffff">
+        </div>
+
+        <div class="color-picker-wrapper">
+            <label for="bg-color">BG:</label>
+            <input type="color" id="bg-color" value="#121212">
+        </div>
+    </div>
+
+    <script>
+        // Grab elements from the page
+        const wordInput = document.getElementById('word-input');
+        const textColorInput = document.getElementById('text-color');
+        const bgColorInput = document.getElementById('bg-color');
+        const textContainer = document.getElementById('text-container');
+        const bodyElement = document.body;
+
+        // Function to update the text display
+        wordInput.addEventListener('input', (e) => {
+            // Converts text to uppercase. Remove .toUpperCase() if you want lowercase letters.
+            textContainer.textContent = e.target.value.toUpperCase() || ' '; 
+        });
+
+        // Function to update text color
+        textColorInput.addEventListener('input', (e) => {
+            textContainer.style.color = e.target.value;
+        });
+
+        // Function to update background color
+        bgColorInput.addEventListener('input', (e) => {
+            bodyElement.style.backgroundColor = e.target.value;
+        });
+    </script>
+</body>
+</html>
